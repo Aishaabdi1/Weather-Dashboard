@@ -259,3 +259,7 @@ const renderErrorAlert = () => {
     );
     const currentData = await fetchData(currentDataUrl);
     
+    // getting the lat, lon and city name
+  const lat = currentData?.coord?.lat;
+  const lon = currentData?.coord?.lon;
+  const displayCityName = currentData?.name;
