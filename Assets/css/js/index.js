@@ -183,4 +183,20 @@ const renderForecastData = (data) => {
 
   weatherInfoContainer.append(forecastWeatherCards);
 };
-
+const renderRecentSearches = () => {
+    // get recent searches from LS
+    const recentSearches = readFromLocalStorage("recentSearches", []);
+  
+    // ["foo", "bar"]
+    if (recentSearches.length) {
+      const createRecentCity = (city) => {
+        return `<li
+          class="list-group-item border-top-0 border-end-0 border-start-0"
+          data-city="${city}"
+        >
+          ${city}
+        </li>`;
+      };
+  
+      const recentCities = recentSearches.map(createRecentCity).join("");
+      
