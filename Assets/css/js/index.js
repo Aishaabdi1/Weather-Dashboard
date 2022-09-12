@@ -324,4 +324,10 @@ if (!recentSearches.includes(cityName) && renderStatus) {
 }
 }
 };
-
+const onReady = () => {
+    renderRecentSearches();
+  };
+  
+  recentSearchesContainer.click(handleRecentSearchClick);
+  searchForm.submit(handleFormSubmit);
+  $(document).ready(onReady);
