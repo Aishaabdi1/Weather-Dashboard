@@ -298,3 +298,9 @@ const handleRecentSearchClick = async (event) => {
 
 const handleFormSubmit = async (event) => {
   event.preventDefault();
+  // get form input value
+  const cityName = $("#search-input").val();
+
+  // validate
+  if (cityName) {
+
