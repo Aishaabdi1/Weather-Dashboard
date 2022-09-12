@@ -166,3 +166,21 @@ const renderForecastData = (data) => {
             </div>
           </div>
           </div>`;
+          return forecast;
+        };
+        const forecastCards = data.weatherData.daily
+    .slice(1, 6)
+    .map(createForecastCard)
+    .join("");
+
+  const forecastWeatherCards = `<div>
+        <h2 class="mt-3 text-center">5-day Forecast</h2>
+        <hr />
+        <div class="d-flex flex-row justify-content-center flex-wrap">
+          ${forecastCards}
+      </div>
+    </div>`;
+
+  weatherInfoContainer.append(forecastWeatherCards);
+};
+
