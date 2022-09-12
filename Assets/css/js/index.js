@@ -45,3 +45,16 @@ const fetchData = async (url, options = {}) => {
     throw new Error(error.message);
   }
 };
+// identifiying UV colour
+const getUviClassName = (uvi) => {
+    if (uvi >= 0 && uvi <= 2) {
+      return "bg-success";
+    }
+  
+    if (uvi > 2 && uvi <= 8) {
+      return "bg-warning";
+    }
+    if (uvi > 8) {
+      return "bg-danger";
+    }
+  };
