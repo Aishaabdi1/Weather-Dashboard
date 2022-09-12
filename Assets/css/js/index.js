@@ -263,7 +263,7 @@ const renderErrorAlert = () => {
   const lat = currentData?.coord?.lat;
   const lon = currentData?.coord?.lon;
   const displayCityName = currentData?.name;
-  
+
  // forecast url
  const forecastDataUrl = constructUrl(
     "https://api.openweathermap.org/data/2.5/onecall",
@@ -284,3 +284,17 @@ const renderErrorAlert = () => {
     weatherData: forecastData,
   };
 };
+
+const handleRecentSearchClick = async (event) => {
+  const target = $(event.target);
+
+  // restrict clicks only from li
+  if (target.is("li")) {
+    // get data city attribute
+    const cityName = target.attr("data-city");
+    await renderWeatherInfo(cityName);
+  }
+};
+
+const handleFormSubmit = async (event) => {
+  event.preventDefault();
