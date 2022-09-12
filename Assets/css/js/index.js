@@ -47,20 +47,20 @@ const fetchData = async (url, options = {}) => {
 };
 // identifiying UV colour
 const getUviClassName = (uvi) => {
-    if (uvi >= 0 && uvi <= 2) {
-      return "bg-success";
-    }
-  
-    if (uvi > 2 && uvi <= 8) {
-      return "bg-warning";
-    }
-    if (uvi > 8) {
-      return "bg-danger";
-    }
-  };
-  // current data cards
+  if (uvi >= 0 && uvi <= 2) {
+    return "bg-success";
+  }
+
+  if (uvi > 2 && uvi <= 8) {
+    return "bg-warning";
+  }
+  if (uvi > 8) {
+    return "bg-danger";
+  }
+};
+// current data cards
 const renderCurrentData = (data) => {
-    const currentWeatherCard = `<div class="p-3">
+  const currentWeatherCard = `<div class="p-3">
         <div class="text-center">
         <h2 class="my-2">${data.cityName}</h2>
         <h3 class="my-2">${moment
@@ -114,13 +114,13 @@ const renderCurrentData = (data) => {
           </div>
         </div>
       </div>`;
-  
-    weatherInfoContainer.append(currentWeatherCard);
-  };
-  // forecast cards
+
+  weatherInfoContainer.append(currentWeatherCard);
+};
+// forecast cards
 const renderForecastData = (data) => {
-    const createForecastCard = (each) => {
-      const forecast = `<div class="card m-2 forecast-card">
+  const createForecastCard = (each) => {
+    const forecast = `<div class="card m-2 forecast-card">
           <div class="d-flex justify-content-center">
             <img
               src="http://openweathermap.org/img/w/${each.weather[0].icon}.png"
@@ -166,9 +166,9 @@ const renderForecastData = (data) => {
             </div>
           </div>
           </div>`;
-          return forecast;
-        };
-        const forecastCards = data.weatherData.daily
+    return forecast;
+  };
+  const forecastCards = data.weatherData.daily
     .slice(1, 6)
     .map(createForecastCard)
     .join("");
@@ -184,19 +184,66 @@ const renderForecastData = (data) => {
   weatherInfoContainer.append(forecastWeatherCards);
 };
 const renderRecentSearches = () => {
-    // get recent searches from LS
-    const recentSearches = readFromLocalStorage("recentSearches", []);
-  
-    // ["foo", "bar"]
-    if (recentSearches.length) {
-      const createRecentCity = (city) => {
-        return `<li
+  // get recent searches from LS
+  const recentSearches = readFromLocalStorage("recentSearches", []);
+
+  // ["foo", "bar"]
+  if (recentSearches.length) {
+    const createRecentCity = (city) => {
+      return `<li
           class="list-group-item border-top-0 border-end-0 border-start-0"
           data-city="${city}"
         >
           ${city}
         </li>`;
-      };
+    };
+
+    const recentCities = recentSearches.map(createRecentCity).join("");
+    const recentCities = recentSearches.map(createRecentCity).join("");
+
+    // if render recent searches list
+    const ul = `<ul class="list-group rounded-0">
+        ${recentCities}
+      </ul>`;
+    // append to parent
+    recentSearchesContainer.append(ul);
+  } else {
+    // else empty show alert
+    const alert = `<div class="alert alert-warning" role="alert">
+    You have no recent searches.
+  </div>`;
+
+    // append to parent
+    recentSearchesContainer.append(alert);
+  }
+};
+const renderErrorAlert = () => {
+    // empty container
+    weatherInfoContainer.empty();
   
-      const recentCities = recentSearches.map(createRecentCity).join("");
-      
+    const alert = `<div class="alert alert-danger" role="alert">
+      Something went wrong!! Please try again.
+    </div>`;
+  
+    weatherInfoContainer.append(alert);
+  };
+  const renderWeatherInfo = async (cityName) => {
+    try {
+      // fetch weather data
+      const weatherData = await fetchWeatherData(cityName);
+  
+      // empty container
+      weatherInfoContainer.empty();
+  
+      // render current data
+      renderCurrentData(weatherData);
+  
+      // render forecast data
+      renderForecastData(weatherData);
+  
+      return true;
+    } catch (error) {
+      renderErrorAlert();
+      return false;
+    }
+  };
