@@ -303,4 +303,25 @@ const handleFormSubmit = async (event) => {
 
   // validate
   if (cityName) {
+// render weather cards
+const renderStatus = await renderWeatherInfo(cityName);
+
+// get recentSearches from LS
+const recentSearches = readFromLocalStorage("recentSearches", []);
+
+if (!recentSearches.includes(cityName) && renderStatus) {
+  // push city name to array
+  recentSearches.push(cityName);
+
+  // write recent searches to LS
+  writeToLocalStorage("recentSearches", recentSearches);
+
+  // remove previous items
+  recentSearchesContainer.children().last().remove();
+
+  // re-render recent cities
+  renderRecentSearches();
+}
+}
+};
 
