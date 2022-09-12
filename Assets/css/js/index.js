@@ -247,3 +247,15 @@ const renderErrorAlert = () => {
       return false;
     }
   };
+  const fetchWeatherData = async (cityName) => {
+    // fetch data from API
+    // current data url
+    const currentDataUrl = constructUrl(
+      "https://api.openweathermap.org/data/2.5/weather",
+      {
+        q: cityName,
+        appid: "8109f605d79877f7488a194794a29013",
+      }
+    );
+    const currentData = await fetchData(currentDataUrl);
+    
